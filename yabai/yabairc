@@ -1,30 +1,24 @@
 #!/usr/bin/env bash
 
-source "$(dirname $0)/colorschemes/onedark.sh"
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 yabai -m config window_placement second_child
 yabai -m config window_shadow on
 
-yabai -m config window_border              on
-yabai -m config window_border_width        4
-yabai -m config normal_window_border_color 0xff${normal_window_border_color//#}
-yabai -m config active_window_border_color 0xff${active_window_border_color//#}
+yabai -m config window_border                on
+yabai -m config window_border_width          4
+yabai -m config active_window_border_color   0xffffffff
+yabai -m config normal_window_border_color   0xff000000
 
 yabai -m config layout          bsp
-# For 2048x1152
-# yabai -m config external_bar    all:21:0
-# yabai -m config top_padding     19
-# yabai -m config bottom_padding  19
-# yabai -m config left_padding    19
-# yabai -m config right_padding   19
-# yabai -m config window_gap      22
-# For 2560x1440
+
 yabai -m config external_bar    all:25:0
-yabai -m config top_padding     23
-yabai -m config bottom_padding  23
-yabai -m config left_padding    23
-yabai -m config right_padding   23
-yabai -m config window_gap      27
+yabai -m config top_padding     20
+yabai -m config bottom_padding  20
+yabai -m config left_padding    20
+yabai -m config right_padding   20
+yabai -m config window_gap      25
 
 yabai -m rule --add app="Digital Colour Meter" manage=off
 yabai -m rule --add app="System Preferences" manage=off
@@ -32,7 +26,10 @@ yabai -m rule --add app="Activity Monitor" manage=off
 yabai -m rule --add app="Font Book" manage=off
 yabai -m rule --add app="App Store" manage=off
 yabai -m rule --add app="System Information" manage=off
-yabai -m rule --add app="Logi Options" manage=off
+yabai -m rule --add app="Calculator" manage=off
+yabai -m rule --add app="Dictionary" manage=off
+yabai -m rule --add app="Keka" manage=off
+yabai -m rule --add app="Self Control" manage=off
 
 yabai -m rule --add title="floating" manage=off
 

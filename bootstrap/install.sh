@@ -172,11 +172,67 @@ function set_sys_defaults() {
     SHOWOTHERUSERS_MANAGED -bool false
 
   # Never let the computer or the display go to sleep
-  sudo pmset -a sleep 0
-  sudo pmset -a displaysleep 0
+  sudo pmset -a destroyfvkeyonstandby 1
+  sudo pmset -a hibernatemode 25
+  sudo pmset -a powernap 0
+  sudo pmset -a standby 0
+  sudo pmset -a standbydelay 0
+  sudo pmset -a autopoweroff 0
 
   # Never dim the display while on battery power
   sudo pmset -a halfdim 0
+
+  # Security Settings
+  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
+  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
+  sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
+
+  rm -rfv "~/Library/LanguageModeling/*" "~/Library/Spelling/*" "~/Library/Suggestions/*"
+  chmod -R 000 ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+  chflags -R uchg ~/Library/LanguageModeling ~/Library/Spelling ~/Library/Suggestions
+
+  rm -rfv "~/Library/Application Support/Quick Look/*"
+  chmod -R 000 "~/Library/Application Support/Quick Look"
+  chflags -R uchg "~/Library/Application Support/Quick Look"
+
+  rm -rfv ~/Library/Assistant/SiriAnalytics.db
+  chmod -R 000 ~/Library/Assistant/SiriAnalytics.db
+  chflags -R uchg ~/Library/Assistant/SiriAnalytics.db
+
+  duti -s com.apple.Safari afp
+  duti -s com.apple.Safari ftp
+  duti -s com.apple.Safari nfs
+  duti -s com.apple.Safari smb
+  duti -s com.apple.TextEdit public.unix-executable
+
+  defaults write com.apple.screensaver askForPassword -int 1
+  defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+  defaults write com.apple.finder AppleShowAllFiles -bool true
+  chflags nohidden ~/Library
+  defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+  defaults write com.apple.CrashReporter DialogType none
+  sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+
+  # Turn off Spotlight until I get things up and running
+  sudo mdutil -i off /
+  sudo rm -rf /.Spotlight-V100/
+
+  # Bluetooth Settings
+  sudo defaults write bluetoothaudiod "Enable AptX codec" -bool true
+  sudo defaults write bluetoothaudiod "Enable AAC codec" -bool true
+  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80
+  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 80
+  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 80
+  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 80
+  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 80
+  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 80
+  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 80
 
   # Don't reopen any program after restarting
   defaults write com.apple.loginwindow TALLogoutSavesState -bool false
@@ -202,6 +258,7 @@ function set_sys_defaults() {
   killall Dock
   killall Finder
   killall SystemUIServer
+  sudo pkill -HUP socketfilterfw
 
   sleep 1
 }
@@ -217,7 +274,7 @@ function get_homebrew_bundle_brewfile() {
           https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   curl -fsSL \
-    https://raw.githubusercontent.com/noib3/dotfiles/macOS/bootstrap/Brewfile \
+    https://raw.githubusercontent.com/peterjbachman/dotfiles/macOS/bootstrap/Brewfile \
     -o /tmp/Brewfile
 
   brew bundle install --file /tmp/Brewfile
@@ -535,6 +592,21 @@ You'll need to:
   sleep 1
 }
 
+function setup_other_configs() {
+
+  echo_step "Setting up R"
+
+  mkdir -p \
+    "${HOME}/.R"
+  ln -sf \
+    "${HOME}/.R/Makevars"
+
+  echo_step "Setting up Hosts File"
+
+  curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts | sudo tee -a /etc/hosts
+
+}
+
 function setup_mpv() {
   # Removes Skim from quarantine. Sets mpv as the default video player.
 
@@ -677,20 +749,12 @@ back to\n    full speed"
       a Space with open windows for the application";
    b. Displays -> Arrangement -> drag displays and menubar to the desired
       positions;
-2. Logitech options:
-   a. log in;
-   b. Mouse -> set Thumb wheel to Zoom;
-   c. Point & Scroll -> Scroll direction -> Natural;
-   d. Point & Scroll -> Smooth scrolling -> Disabled;
-   e. Point & Scroll -> Thumb wheel direction -> Inverted.
 3. Firefox:
    a. about:preferences -> Zoom -> Default zoom -> 170%;
    b. about:addons -> allow every extension to Run in Private Windows;
-   c. log into Bitwarden;
-   d. Bitwarden -> Settings -> Vault timeout -> Never;
    e. log back into all the websites (Google, YouTube, Reddit, etc..).
 4. Other:
-   a. rm ~/.zsh_history;
+   a. Set up Spotlight Preferences
    b. take a screenshot to trigger being asked for screen recording permissions
       for skhd (System Preferences -> Security and Privacy -> Screen recording
       -> skhd)
@@ -741,6 +805,7 @@ yabai_install_sa
 # settings for my Logitech MX Master mouse, adding a new SSH key to my GitHub
 # account or synching directories from a remote server.
 
+setup_other_configs
 github_add_ssh_key
 start_auto_self_control
 

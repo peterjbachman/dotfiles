@@ -38,6 +38,7 @@ brew "tccutil"
 brew "terminal-notifier"
 brew "wget"
 brew "openjdk@8"
+brew "gnupg"
 
 cask "firefox"
 cask "font-jetbrains-mono-nerd-font"
