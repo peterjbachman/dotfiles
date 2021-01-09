@@ -1,0 +1,15 @@
+colorscheme tridactyl
+
+set modeindicator false
+
+bind j scrollline 5
+bind k scrollline -5
+
+bind f hint -J
+bind F hint -Jb
+
+bind / fillcmdline find
+bind n findnext 1
+bind N findnext -1
+
+source $PRIVATEDIR/tridactyl/website-bindings

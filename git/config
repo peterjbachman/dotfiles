@@ -1,0 +1,5 @@
+[user]
+	name = peterjbachman
+	email = peter.j.bachman@gmail.com
+[pull]
+	rebase = false

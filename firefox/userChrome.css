@@ -1,0 +1,22 @@
+@import "/Users/peter/.config/firefox/fonts/RobotoMono.css";
+
+@import "/Users/peter/.config/firefox/colors/colors.css";
+@import "/Users/peter/.config/firefox/colorschemes/onedark.css";
+
+@import "/Users/peter/.config/firefox/tab_bar/debloat_tab_bar.css";
+@import "/Users/peter/.config/firefox/tab_bar/tabs_layout.css";
+@import "/Users/peter/.config/firefox/tab_bar/tabs_fill_available_width.css";
+@import "/Users/peter/.config/firefox/tab_bar/numbered_tabs.css";
+@import "/Users/peter/.config/firefox/tab_bar/tab_close_button_always_on_hover.css";
+@import "/Users/peter/.config/firefox/tab_bar/hide_tabs_with_one_tab.css";
+
+@import "/Users/peter/.config/firefox/navbar/debloat_navbar.css";
+@import "/Users/peter/.config/firefox/navbar/navbar_layout.css";
+@import "/Users/peter/.config/firefox/navbar/navbar_on_focus.css";
+
+@import "/Users/peter/.config/firefox/urlbar/debloat_urlbar.css";
+@import "/Users/peter/.config/firefox/urlbar/urlbar_layout.css";
+@import "/Users/peter/.config/firefox/urlbar/remove_megabar.css";
+
+@import "/Users/peter/.config/firefox/sidebar/debloat_sidebar.css";
+@import "/Users/peter/.config/firefox/sidebar/sidebar_layout.css";
