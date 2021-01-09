@@ -225,17 +225,6 @@ function get_homebrew_bundle_brewfile() {
   sleep 1
 }
 
-function get_macports_bundle_brewfile() {
-  # Install Macports and the respective files
-
-  echo_step "Installing MacPorts"
-
-  which -s port && port selfupdate \
-    || 
-
-
-}
-
 function unload_finder {
   # Creates a service that quits Finder after the user logs in.
 
@@ -382,7 +371,7 @@ function setup_dotfiles() {
   echo_step "Downloading and installing dotfiles from noib3/dotfiles (macOS \
 branch)"
 
-  git clone -q https://github.com/noib3/dotfiles.git --branch macOS \
+  git clone -q https://github.com/peterjbachman/dotfiles.git --branch main \
     /tmp/dotfiles
 
   /usr/local/opt/gnu-sed/libexec/gnubin/sed -i \
@@ -399,32 +388,10 @@ function chsh_fish() {
   # Adds fish to the list of the valid shells, then sets fish as the chosen
   # login shell.
 
-  echo_step "Setting fish as the default shell"
+  echo_step "Setting zsh as the default shell"
 
-  sudo sh -c "echo /usr/local/bin/fish >> /etc/shells"
-  chsh -s /usr/local/bin/fish
-
-  sleep 1
-}
-
-function pip_install_requirements() {
-  # Installs the python modules taken from the requirements.txt file in the
-  # GitHub repo.
-
-  echo_step "Installing python modules"
-
-  wget -qP /tmp https://raw.githubusercontent.com/noib3/dotfiles/macOS/\
-bootstrap/requirements.txt
-
-  python3 -m pip install --upgrade pip >/dev/null
-  pip3 install -qr /tmp/requirements.txt >/dev/null
-
-  echo_step "Updating outdated modules"
-
-  # Update all outdated modules (returns an error if there are no modules to be
-  # updated).
-  pip3 list --outdated --format=freeze | grep -v '^\-e' \
-    | cut -d = -f 1 | xargs -n1 pip3 install -U >/dev/null || true
+  sudo sh -c "echo /usr/local/bin/zsh >> /etc/shells"
+  chsh -s /usr/local/bin/zsh
 
   sleep 1
 }
@@ -519,23 +486,6 @@ install.sh \
   sleep 1
 }
 
-function setup_alacritty() {
-  # Downloads and installs the terminfo database for alacritty. Removes
-  # Alacritty from quarantine.
-
-  echo_step "Setting up Alacritty"
-
-  wget -qP /tmp/ https://raw.githubusercontent.com/alacritty/alacritty/master/\
-extra/alacritty.info
-
-  sudo tic -xe alacritty,alacritty-direct /tmp/alacritty.info
-
-  # Open Alacritty without being prompted for a "Are you sure.." dialog
-  xattr -r -d com.apple.quarantine /Applications/Alacritty.app
-
-  sleep 1
-}
-
 function setup_skim() {
   # Removes Skim from quarantine. Opens a dummy pdf file used to trigger the
   # creation of Skim's property list file in ~/Library/Preferences. Sets Skim
@@ -626,8 +576,6 @@ function brew_start_services() {
     redshift \
     skhd \
     spacebar \
-    syncthing \
-    transmission-cli \
     yabai \
   )
 
@@ -652,72 +600,6 @@ function yabai_install_sa() {
   sleep 1
 }
 
-function syncthing_sync_from_server() {
-  # Opens a new Firefox window with this machine's and my remote server's
-  # Syncthing Web GUI pages.
-
-  local remote_droplet_name=Ocean
-  local remote_sync_path=/home/noibe/Sync
-  local_sync_path="${HOME}/Sync"
-
-  echo_step "Setting up Syncthing"
-
-  echo "You'll need to:
-  1. remove this machine's Default Folder;
-  2. set this machine's Device Name;
-  3. add ${remote_droplet_name} to this machine's remote devices;
-  4. sync ${remote_droplet_name}'s ${remote_sync_path} to ${local_sync_path};
-  5. flag ${local_sync_path} as Send Only;
-  6. set ${local_sync_path}'s Full Rescan Interval to 60 seconds;
-  7. quit Firefox."
-
-  /Applications/Firefox.app/Contents/MacOS/firefox \
-    "http://localhost:8384/#" \
-    "https://64.227.35.152:8384/#" &>/dev/null
-
-  brew services stop syncthing &>/dev/null
-  xml ed --inplace \
-    -u "/configuration/folder[@path='${local_sync_path}']/markerName" \
-    -v "wallpapers" \
-    "${HOME}/Library/Application Support/Syncthing/config.xml"
-  rm -rf "${local_sync_path}/.stfolder"
-  brew services start syncthing &>/dev/null
-
-  sleep 1
-}
-
-function setup_sync_symlinks {
-  # Sets up symlinks from various directories and files to ~/Sync.
-
-  echo_step "Setting up symlinks to ~/Sync"
-
-  ln -sf "${local_sync_path}/private/ssh" "${HOME}/.ssh"
-
-  rm -rf "${HOME}/.config"
-  ln -s "${local_sync_path}/dotfiles/macOS" "${HOME}/.config"
-
-  for profile in "${firefox_profiles[@]}"; do
-    ln -f \
-      "${local_sync_path}/dotfiles/macOS/firefox/userContent.css" \
-      "${HOME}/Library/Application Support/Firefox/Profiles/${profile}/chrome/"
-  done
-
-  mkdir -p "${HOME}/.local/share/ndiet"
-  ln -s "${local_sync_path}/code/ndiet/ndiet.py" /usr/local/bin/ndiet
-  ln -s \
-    "${local_sync_path}/code/ndiet/diets" \
-    "${HOME}/.local/share/ndiet/diets"
-  ln -s \
-    "${local_sync_path}/code/ndiet/pantry.txt" \
-    "${HOME}/.local/share/ndiet/pantry.txt"
-
-  rm /usr/local/etc/auto-selfcontrol/config.json
-  ln -sf \
-    "${local_sync_path}/private/auto-selfcontrol/config.json" \
-    /usr/local/etc/auto-selfcontrol/config.json
-
-  sleep 1
-}
 
 function github_add_ssh_key() {
   # Creates a new ssh key for pushing to GitHub without having to input any
@@ -725,7 +607,7 @@ function github_add_ssh_key() {
   # page in Firefox to add the newly generated key to the list of accepted
   # keys.
 
-  local github_user_email="riccardo.mazzarini@pm.me"
+  local github_user_email="peter.j.bachman@gmail.com"
 
   echo_step "Creating new ssh key for GitHub"
 
@@ -748,56 +630,12 @@ function github_add_ssh_key() {
   sleep 1
 }
 
-function add_to_finder_fav_pt2() {
-  # Add ~/Sync/screenshots and ~/Sync/burocrazy to the Finder's favourite
-  # sidebar.
-
-  echo_step -e "Adding ${local_sync_path}/screenshots and \
-${local_sync_path}/burocrazy to the\n    Finder's Favourites"
-
-  mysides add screenshots "file://${local_sync_path}/screenshots" &>/dev/null
-  mysides add burocrazy "file://${local_sync_path}/burocrazy" &>/dev/null
-
-  sleep 1
-}
-
-function transmission_torrent_done_script {
-  # Add a torrent-done script to Transmission.
-
-  echo_step "Adding torrent-done notification script to Transmission"
-
-  transmission-remote --torrent-done-script \
-    "${local_sync_path}/code/scripts/transmission/notify-done" &>/dev/null
-
-  sleep 1
-}
-
 function start_auto_self_control {
   # Starts auto-selfcontrol.
 
   echo_step "Starting auto-selfcontrol"
 
   auto-selfcontrol activate >/dev/null
-
-  sleep 1
-}
-
-function set_wallpaper() {
-  # Fetches the current $COLORSCHEME from fish/conf.d/exports.fish, then sets
-  # the wallpaper to ~/Sync/wallpapers/$COLORSCHEME.png.
-
-  local colorscheme="$(\
-    grep 'set\s\+-x\s\+COLORSCHEME' \
-      "${HOME}/.config/fish/conf.d/exports.fish" \
-    | /usr/local/opt/gnu-sed/libexec/gnubin/sed \
-        's/set\s\+-x\s\+COLORSCHEME\s\+\([^\s]*\)/\1/'
-  )"
-
-  echo_step "Changing the wallpaper to ${colorscheme}.png"
-
-  osascript -e \
-    "tell application \"Finder\" to set desktop picture \
-      to POSIX file \"${local_sync_path}/wallpapers/${colorscheme}.png\""
 
   sleep 1
 }
@@ -890,11 +728,9 @@ remove_finder_from_dock
 add_to_finder_fav_pt1
 setup_dotfiles
 chsh_fish
-pip_install_requirements
 install_vimplug
 install_livedown
 setup_firefox
-setup_alacritty
 setup_skim
 setup_mpv
 allow_accessibility
@@ -905,13 +741,8 @@ yabai_install_sa
 # settings for my Logitech MX Master mouse, adding a new SSH key to my GitHub
 # account or synching directories from a remote server.
 
-syncthing_sync_from_server
-setup_sync_symlinks
 github_add_ssh_key
-add_to_finder_fav_pt2
-transmission_torrent_done_script
 start_auto_self_control
-set_wallpaper
 
 # Cleanup leftover files, create a TODO.md file listing the things left to do
 # to get back to full speed, reboot the system.
