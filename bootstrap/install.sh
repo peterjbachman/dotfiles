@@ -223,17 +223,6 @@ function set_sys_defaults() {
   sudo mdutil -i off /
   sudo rm -rf /.Spotlight-V100/
 
-  # Bluetooth Settings
-  sudo defaults write bluetoothaudiod "Enable AptX codec" -bool true
-  sudo defaults write bluetoothaudiod "Enable AAC codec" -bool true
-  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80
-  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 80
-  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 80
-  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 80
-  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 80
-  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 80
-  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 80
-
   # Don't reopen any program after restarting
   defaults write com.apple.loginwindow TALLogoutSavesState -bool false
   defaults write com.apple.loginwindow LoginwindowLaunchesRelaunchApps -bool \
@@ -274,7 +263,7 @@ function get_homebrew_bundle_brewfile() {
           https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   curl -fsSL \
-    https://raw.githubusercontent.com/peterjbachman/dotfiles/macOS/bootstrap/Brewfile \
+    https://raw.githubusercontent.com/peterjbachman/dotfiles/main/bootstrap/Brewfile \
     -o /tmp/Brewfile
 
   brew bundle install --file /tmp/Brewfile
@@ -325,6 +314,7 @@ EOF
 EOF
 
   launchctl load "${HOME}/Library/LaunchAgents/$(id -un).unload-Finder.plist"
+  launchctl unload "${HOME}/Library/LaunchAgents/$(id -un).unload-Finder.plist"
 
   sleep 1
 }
