@@ -1,0 +1,19 @@
+set selection-clipboard clipboard
+
+set adjust-open             "best-fit"
+set statusbar-h-padding     5
+set statusbar-v-padding     5
+set page-padding            1
+
+set recolor                 true
+set recolor-keephue         true
+
+set font                    "scientifica"
+set default-bg              "#333333"
+set default-fg              "#f2f2f2"
+
+set highlight-color         "#6cff91" #0A
+set highlight-active-color  "#37a4ed" #0D
+
+set recolor-lightcolor      "#121212" #00
+set recolor-darkcolor       "#c9c9c9" #06

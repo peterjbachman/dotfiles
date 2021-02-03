@@ -130,10 +130,10 @@ hyper + lcmd - p : yabai -m window --swap east
 #shift + cmd - d : yabai -m window --resize right:-20:0
 
 ## rotate tree 90
-hyper + rcmd - f : yabai -m space --rotate 90
+hyper - f : yabai -m space --rotate 90
 
 ## flip the tree vertically
-hyper + rcmd - e : yabai -m space --mirror y-axis
+hyper - e : yabai -m space --mirror y-axis
 # mirror tree y-axis
 #alt - y : yabai -m space --mirror y-axis
 ## mirror tree x-axis

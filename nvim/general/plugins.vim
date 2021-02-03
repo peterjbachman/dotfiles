@@ -7,13 +7,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Yggdroot/indentLine'
   Plug 'qpkorr/vim-bufkill'
   Plug 'norcalli/nvim-colorizer.lua'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'voldikss/vim-floaterm'
-  Plug 'farmergreg/vim-lastplace'
   Plug 'shime/vim-livedown'
-  Plug 'embear/vim-localvimrc'
   Plug 'timakro/vim-searchant'
-  Plug 'liuchengxu/vim-which-key'
 
   " Completion & linting
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -48,7 +43,11 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tridactyl/vim-tridactyl'
   Plug 'lervag/vimtex'
 
+  Plug 'preservim/nerdtree'
+  Plug 'neomake/neomake'
+
   " Colorschemes
-  Plug 'chriskempson/base16-vim'
+
 
 call plug#end()
+

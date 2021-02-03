@@ -6,9 +6,9 @@
   /* --font-size-hints: 12px; */
   /* --font-size-commandline: 14px; */
   /* RobotoMono */
-  --font-family: "RobotoMono Nerd Font";
-  --font-size-hints: 12px;
-  --font-size-commandline: 14px;
+  --font-family: "Hack Nerd Font Mono";
+  --font-size-hints: 13px;
+  --font-size-commandline: 13px;
   /* SFMono */
   /* --font-family: "SFMono Nerd Font"; */
   /* --font-size-hints: 12px; */
@@ -19,20 +19,20 @@
 
 :root {
   /* Afterglow */
-  /* --color-hint-bg: #5a647e; */
-  /* --color-hint-fg: #d6d6d6; */
+  /* --color-hint-bg: #2f2f2f; */
+  /* --color-hint-fg: #4c4c4c; */
   /* --color-commandline-bg: #1a1a1a; */
-  /* --color-commandline-fg: #d6d6d6; */
+  /* --color-commandline-fg: #4c4c4c; */
   /* Gruvbox */
   /* --color-hint-bg: #b57614; */
   /* --color-hint-fg: #eddbb2; */
   /* --color-commandline-bg: #282828; */
   /* --color-commandline-fg: #ebdbb2; */
   /* Onedark */
-  --color-hint-bg: #3e4452;
-  --color-hint-fg: #abb2bf;
-  --color-commandline-bg: #282c34;
-  --color-commandline-fg: #abb2bf;
+  --color-hint-bg: #202020;
+  --color-hint-fg: #c9c9c9;
+  --color-commandline-bg: #202020;
+  --color-commandline-fg: #c9c9c9;
 }
 
 /* Hints */
@@ -62,7 +62,7 @@
   font-size: var(--tridactyl-cmdl-font-size);
   height: 1.3em;
   margin-top: -1px;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 #command-line-holder {

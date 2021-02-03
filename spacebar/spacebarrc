@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$(dirname $0)"/fonts/RobotoMono.sh
+source "$(dirname $0)"/font/RobotoMono.sh
 source "$(dirname $0)"/colorschemes/onedark.sh
 
 # For 2048x1152
@@ -12,14 +12,15 @@ spacebar -m config height 25
 spacebar -m config spacing_left 30
 spacebar -m config spacing_right 40
 
-spacebar -m config text_font "${text_font}"
-spacebar -m config icon_font "${icon_font}"
+spacebar -m config text_font "Hack Nerd Font Mono:Regular:12.0"
+spacebar -m config icon_font "Hack Nerd Font Mono:Regular:12.0"
 
-spacebar -m config background_color 0xff${background_color//#}
-spacebar -m config foreground_color 0xff${foreground_color//#}
-spacebar -m config space_icon_color 0xff${space_icon_color//#}
+spacebar -m config background_color   0xff${background_color//#}
+spacebar -m config foreground_color   0xff${foreground_color//#}
+spacebar -m config space_icon_color   0xff${space_icon_color//#}
+spacebar -m config power_icon_color   0xff${power_icon_color//#}
+spacebar -m config battery_icon_color 0xff${battery_icon_color//#}
 
 spacebar -m config space_icon_strip 1 2 3 4 5
-spacebar -m config power_icon_strip   
-spacebar -m config clock_icon 
+spacebar -m config power_icon_strip  
 spacebar -m config clock_format "%a %d %b %R"

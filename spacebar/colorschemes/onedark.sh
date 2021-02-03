@@ -1,3 +1,5 @@
-background_color="#3e4452"
-foreground_color="#abb2bf"
-space_icon_color="#e5c07b"
+background_color="#202020"
+foreground_color="#c9c9c9"
+space_icon_color="#6cff91"
+power_icon_color="#efe79d"
+battery_icon_color="#6cff91"

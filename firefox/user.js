@@ -5,6 +5,8 @@ user_pref("browser.search.hiddenOneOffs", "Google,Amazon.co.uk,Bing,Chambers (UK
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.tabs.warnOnClose", false);
 user_pref("browser.newtabpage.pinned", "");
-user_pref("browser.tabs.loadInBackground", false);
+user_pref("browser.tabs.loadInBackground", true);
 user_pref("browser.urlbar.update2", false);
 user_pref("browser.startup.page", 1);
+user_pref("svg.context-properties.content.enabled", true);
+user_pref("privacy.resistFingerprinting", false);

@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/Users/peter/.config/nvim/general'
+let g:netrw_dirhist_0='/Users/peter/.config/nvim'
+let g:netrw_dirhist_9='/Users/peter/.config/nvim/plugged'
+let g:netrw_dirhist_8='/Users/peter/.config/nvim'
+let g:netrw_dirhist_7='/Users/peter/.config/zsh'
+let g:netrw_dirhist_6='/Users/peter/.config'
+let g:netrw_dirhist_5='/Users/peter/.config/spacebar/fonts'
+let g:netrw_dirhist_4='/Users/peter/.config/spacebar'
+let g:netrw_dirhist_3='/Users/peter/.config'
+let g:netrw_dirhist_2='/Users/peter/.config/yabai'

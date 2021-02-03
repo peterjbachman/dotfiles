@@ -1,5 +1,12 @@
 [user]
 	name = peterjbachman
 	email = peter.j.bachman@gmail.com
+	signingkey = 8AA31E22F66AFD57
+        
 [pull]
 	rebase = false
+[core]
+	editor = nvim
+	excludesfile = /Users/peter/.config/git/.gitignore_global
+[commit]
+	gpgsign = true
